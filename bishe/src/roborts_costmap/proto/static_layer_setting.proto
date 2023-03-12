@@ -1,0 +1,22 @@
+syntax = "proto2";
+package roborts_costmap;
+
+message ParaStaticLayer {
+    required bool first_map_only = 1;
+    required bool subscribe_to_updates = 2;
+    required bool track_unknown_space = 3;
+    required bool use_maximum = 4;
+    required int32 unknown_cost_value = 5;
+    required bool trinary_map = 6;
+    required int32 lethal_threshold = 7;
+    required string topic_name = 8;
+    required bool is_raw_rosmessage = 9;
+    required bool is_debug = 10;
+    required int32 bonus_radius = 11;
+    required int32 yaw_mode = 12;
+    required double car_radius_x = 13;
+    required double car_radius_y = 14;
+    required double car_radius = 15;
+    required int32 car_obs_val = 16;
+    required int32 buff_obs_val = 17;
+}

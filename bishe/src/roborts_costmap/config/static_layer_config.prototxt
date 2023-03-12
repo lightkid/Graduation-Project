@@ -1,0 +1,18 @@
+first_map_only: true
+subscribe_to_updates: false
+track_unknown_space: false
+use_maximum: true
+unknown_cost_value: -1
+lethal_threshold: 100
+trinary_map: false
+topic_name: "/map"
+# topic_name: "planner_map"
+is_raw_rosmessage: true
+is_debug: true
+bonus_radius: 3
+yaw_mode: 0
+car_radius_x: 0.28
+car_radius_y: 0.22
+car_radius: 0.40
+car_obs_val: 252
+buff_obs_val: 251
