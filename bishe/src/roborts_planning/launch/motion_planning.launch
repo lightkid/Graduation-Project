@@ -1,0 +1,44 @@
+<launch>
+<!-- <arg name="use_decouple" value="false"/>
+<arg name="use_strategy" value="true"/> -->
+<!-- <include file="$(find roborts_localization)/launch/localization.launch" /> -->
+<group if="$(arg use_decouple)">
+  <node pkg="predict" type="predict_decoupling" name="predict_decoupling" output="screen" >
+    <param name="angle_max" value="0.45" />
+    <param name="frequency" value="1.05" />
+    <param name="kp" value="6.0" />
+    <param name="acc_lim" value="35.0" />
+  </node>  
+</group>
+<!-- <group if="$(arg use_strategy)">
+  <node pkg="rosbag" type="record" name="planning_record" args="/strategy2planning /planning2strategy -o /home/hitcsc/RMAI/src/roborts_planning/launch/planning.bag"/>
+</group> -->
+<node pkg="roborts_planning" type="vel_converter" name="vel_converter" respawn="true" output="log">
+  <param name="decouple" value="$(arg use_decouple)" />
+</node>
+<!-- planning -->
+<node pkg="map_server" type="map_server" name="map_server_planner" args="/home/hitcsc/RMAI/cfg/planning/icra2020.yaml" output="log">
+  <remap from="map"  to="/planner_map" />
+</node>
+
+<!-- <node pkg="chassis" type = "chassis_ChassisControl" name="chassis_ChassisControl" respawn="true" output="log"/> -->
+
+<node pkg="roborts_planning" type="global_planner_node" name="global_planner_node" respawn="true" output="log" >
+    <param name="decouple" value="$(arg use_decouple)" />
+</node>
+<node pkg="roborts_planning" type="local_planner_node" name="local_planner_node" respawn="true" output="screen" >
+    <param name="decouple" value="$(arg use_decouple)" />
+</node>
+
+<node pkg="roborts_planning" type="global_planner_costmap" name="global_planner_costmap" respawn="true" output="log">
+    <param name="obs_pub_cycle" value="6" />
+    <param name="exclude_self_distance" value="0.45" />
+    <param name="use_sentry" value="0" />
+</node>
+
+
+<node pkg="roborts_planning" type="mode_planner_node" name="mode_planner_node" respawn="true" output="log">
+    <param name="use_strategy" value="$(arg use_strategy)" />
+</node>
+
+</launch>
